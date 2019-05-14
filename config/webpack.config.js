@@ -109,12 +109,21 @@ module.exports = function(webpackEnv) {
       },
     ].filter(Boolean);
     if (preProcessor) {
-      loaders.push({
+      let loader = ({
         loader: require.resolve(preProcessor),
         options: {
           sourceMap: isEnvProduction && shouldUseSourceMap,
         },
       });
+      if (preProcessor === "less-loader") {
+        loader.options.modifyVars = {
+          'primary-color': '#000000',
+          'link-color': '#1DA57A',
+          'border-radius-base': '50px',
+        }
+        loader.options.javascriptEnabled = true
+      }
+      loaders.push(loader);
     }
     return loaders;
   };
@@ -354,6 +363,14 @@ module.exports = function(webpackEnv) {
                         },
                       },
                     },
+                  ],
+                  [
+                    require.resolve('babel-plugin-import'),// 导入 import 插件
+                    {
+                      libraryName: 'antd',   //暴露antd
+                      libraryDirectory: "lib",
+                      style: true
+                    }
                   ],
                 ],
                 // This is a feature of `babel-loader` for webpack (not Babel itself).
