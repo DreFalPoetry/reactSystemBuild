@@ -174,6 +174,18 @@
 
 - 底部组件开发
 
+
+
+#### React Router
+
+##### react-router-dom 核心用法
+
+1. HashRouter 和 BrowserRouter
+2. Route：path,exact,component,render
+3. NavLink,Link
+4. Switch
+5. Redirect
+
 ------
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
