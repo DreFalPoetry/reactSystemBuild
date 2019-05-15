@@ -3,17 +3,16 @@
 // div{
 //   color: @colorA
 // }
+@import './default.less';
 .container{
   display: flex;
   .nav{
-    width: 15%;
-    min-width: 180px;
     height: calc(100vh);
     background-color: #001529;
   }
   .main{
-    flex: 1;
     height: calc(100vh);
+    background: @colorL;
   }
   .content{
     position: relative;
