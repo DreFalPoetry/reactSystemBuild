@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 // import App from './App';
 // import Admin from './admin'
-import Router from './router_demo/router2/router2';
+import Router from './router_demo/router3/router3';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(<Router />, document.getElementById('root'));
