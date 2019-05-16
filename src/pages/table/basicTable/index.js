@@ -4,11 +4,17 @@ import {
   Table
 } from 'antd'
 import axios from '../../../axios/index';
+import  Utils  from '../../../utils/utils';
 
 export default class BasicTable extends React.Component {
 
   state = {
-    dataSource2:[]
+    dataSource2:[],
+    pagination:{}
+  }
+
+  params = {
+    page:1
   }
 
   componentDidMount(){
@@ -17,11 +23,21 @@ export default class BasicTable extends React.Component {
 
   //动态获取mock数据
   request = () => {
-    axios.ajax({url:'/table/list',}).then((res)=>{
+    let self = this;
+    axios.ajax({url:'/table/list',data:{
+     params:{
+       page:self.params.page
+     } 
+    }}).then((res)=>{
       console.log(res);
       if(res.code === 0){
         this.setState({
-          dataSource2:res.result.list
+          dataSource2:res.result.list,
+          pagination:Utils.pagination(res,(current)=>{
+            //todo
+            self.params.page = current
+            self.request()
+          })
         })
       }
     })
@@ -102,7 +118,7 @@ export default class BasicTable extends React.Component {
             bordered
             columns={columns}
             dataSource={this.state.dataSource2}
-            pagination={false}
+            pagination={this.state.pagination}
             rowKey="id"
         />
       </Card>
