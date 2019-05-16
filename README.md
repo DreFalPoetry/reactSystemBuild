@@ -186,6 +186,61 @@
 4. Switch
 5. Redirect
 
+##### react-router项目中的运用
+
+1. 根目录创建router.js文件最底层使用hashRouter包裹，里层使用App组件包裹Route，其中App组件接收this.props.children
+
+   ````js
+   import React from 'react';
+   import logo from './logo.svg';
+   import './App.css';
+   
+   class App extends React.Component{
+     render(){
+       return (
+         <div>
+           {this.props.children}
+         </div>
+       )
+     }
+   }
+   
+   export default App;
+   ````
+
+2. 同级Route包括 Login，Admin,和Detail详情，Admin还包含了下级页面，所以在Admin的Route中render下级页面，使用Admin组件包裹，因此router页面如下
+
+   ````js
+   import React from 'react';
+   import {HashRouter,Route,Switch} from 'react-router-dom'
+   import App from './App';
+   import Login from './pages/login';
+   import Admin from './admin';
+   import Buttons from './pages/ui/buttons'
+   import NoMatch from './pages/noMatch'
+   
+   export default class IRouter extends React.Component{
+     render(){
+       return (
+         <HashRouter>
+           <App>
+             <Route path="/login" component={Login}></Route>
+             <Route path="/admin" render={()=>(
+               <Admin>
+                 <Route path="/admin/ui/buttons" component={Buttons}></Route>  
+                 <Route component={NoMatch}></Route>  
+               </Admin>
+             )}></Route>
+             <Route path="/order/detail" component={Login}></Route>
+           </App>
+         </HashRouter> 
+       )
+     }
+   }
+   ````
+
+   
+
 ------
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
