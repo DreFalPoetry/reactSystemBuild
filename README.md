@@ -239,7 +239,67 @@
    }
    ````
 
-   
+
+
+
+#### 页面组成部分内容填充
+
+- 分页的功能封装和axios请求的封装
+
+  1. 在util问价夹中util.js添加分页封装方法
+
+     ````js
+     pagination(data,callback){
+         return {
+             onChange:(current)=>{
+                 callback(current)
+             },
+             current:data.result.page,
+             pageSize:data.result.page_size,
+             total: data.result.total_count,
+             showTotal:()=>{
+                 return `共${data.result.total_count}条`
+             },
+             showQuickJumper:true
+         }
+     },
+     ````
+
+     在页面中的Table组件内添加pagination属性，接收一个对象，这个对象就是每次请求返回之后执行pagination方法后获取的state,以此实现项目的工程化开发
+
+  2. 在axios文件夹中index.js文件中添加ajax方法，实现接口的统一请求，工程化开发
+
+     ````js
+     static ajax(options){
+         let baseApi = 'https://www.easy-mock.com/mock/5a7278e28d0c633b9c4adbd7/api';
+         return new Promise((resolve,reject)=>{
+             axios({
+                 url:options.url,
+                 method:'get',
+                 baseURL:baseApi,
+                 timeout:5000,
+                 params: (options.data &&  options.data.params) || ''
+             }).then((res)=>{
+                 console.log(res)
+                 if(res.status === 200){
+                     let json = res.data;
+                     if(json.code === 0){
+                         resolve(res.data)
+                     }else{
+                         Modal.info({
+                             title:'提示',
+                             content:res.msg
+                         })
+                     }
+                 }else{
+                     reject(res.data)
+                 }
+             })
+         })
+     }
+     ````
+
+     从页面发出请求就直接调用axios.ajax接口传入参数返回结果
 
 ------
 
