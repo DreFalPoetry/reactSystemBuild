@@ -6,6 +6,7 @@ import Admin from './admin';
 import Buttons from './pages/ui/buttons'
 import BasicTable from './pages/table/basicTable'
 import NoMatch from './pages/noMatch'
+import Common from './common';
 
 export default class IRouter extends React.Component{
   render(){
@@ -22,7 +23,11 @@ export default class IRouter extends React.Component{
               </Switch>
             </Admin>
           )}></Route>
-          <Route path="/order/detail" component={Login}></Route>
+          <Route path="/common" render={()=>(
+            <Common>
+              <Route path="/common/order/detail/:orderId" component={Login} />
+            </Common>
+          )} />
         </App>
       </HashRouter> 
     )
